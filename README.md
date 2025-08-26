@@ -7,10 +7,13 @@ A complete .NET 8 Web API service for managing users and todo items, built follo
 - ✅ **Complete RESTful API** with 5 endpoints
 - ✅ **Clean Architecture** with proper separation of concerns
 - ✅ **Test-Driven Development** with comprehensive test coverage
+- ✅ **Selenium Automation Tests** for end-to-end browser testing
+- ✅ **Interactive Database Viewer** web interface
 - ✅ **Entity Framework Core** with In-Memory database
 - ✅ **Swagger/OpenAPI** documentation
 - ✅ **Dependency Injection** and Repository pattern
 - ✅ **Docker** containerization support
+- ✅ **GitHub Codespaces** compatibility
 - ✅ **Input validation** and error handling
 
 ## API Endpoints
@@ -34,6 +37,10 @@ TodoApi/
 ├── tests/
 │   ├── TodoApi.UnitTests/     # Unit tests (14 tests)
 │   └── TodoApi.IntegrationTests/ # Integration tests (8 tests)
+├── selenium-tests/            # Selenium WebDriver automation tests
+│   ├── package.json           # Node.js dependencies
+│   ├── test-todoapi.js        # Main Selenium test suite
+│   └── node_modules/          # NPM packages
 ├── docs/
 │   ├── design.md              # Architecture and design documentation
 │   └── api.md                 # API documentation
@@ -47,6 +54,8 @@ TodoApi/
 - **ASP.NET Core Web API** - RESTful API framework
 - **Entity Framework Core** - ORM with In-Memory provider
 - **xUnit** - Testing framework
+- **Selenium WebDriver** - Browser automation testing
+- **Node.js** - JavaScript runtime for Selenium tests
 - **Swagger/OpenAPI** - API documentation
 - **Docker** - Containerization
 
@@ -140,6 +149,88 @@ curl -X PATCH http://localhost:5119/api/todos/{todo-id} \
 ```bash
 curl -X DELETE http://localhost:5119/api/todos/{todo-id}
 ```
+
+## Selenium Automation Tests
+
+This project includes comprehensive **Selenium WebDriver** automation tests to verify the API functionality through browser-based testing.
+
+### Test Setup
+
+The Selenium tests are located in the `/selenium-tests/` directory and use:
+- **Node.js** with **Selenium WebDriver** 4.20.0
+- **Chrome** browser in headless mode
+- **JavaScript** test scripts with async/await patterns
+
+### Prerequisites for Selenium Tests
+
+1. **Node.js** (v14 or higher)
+2. **Chrome browser** (automatically detected)
+3. **ChromeDriver** (automatically managed by Selenium Manager)
+
+### Running Selenium Tests
+
+1. **Navigate to the selenium tests directory**
+   ```bash
+   cd selenium-tests
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the TodoApi server** (in another terminal)
+   ```bash
+   cd src/TodoApi.Api
+   dotnet run
+   ```
+
+4. **Run the Selenium tests**
+   ```bash
+   npm test
+   ```
+
+### Test Features
+
+The Selenium automation tests verify:
+
+- ✅ **API Connectivity**: Tests server response and availability
+- ✅ **User Creation**: Automated user registration through API calls
+- ✅ **Todo Management**: Create, read, update, and delete operations
+- ✅ **Database Viewer**: Interactive web interface for viewing/managing todos
+- ✅ **Cross-browser Compatibility**: Headless Chrome testing
+- ✅ **Error Handling**: Validation of error responses and edge cases
+
+### Database Viewer
+
+The project includes a web-based database viewer accessible at:
+- **Local**: `http://localhost:5119/`
+- **Codespaces**: `https://your-codespace-url.app.github.dev/`
+
+The viewer provides:
+- Real-time todo list display
+- Add/edit/delete todo functionality
+- User management interface
+- Interactive API testing
+- Responsive design for mobile and desktop
+
+### Test Configuration
+
+```javascript
+// selenium-tests/test-todoapi.js
+const options = new chrome.Options();
+options.addArguments('--headless');  // Run in background
+options.addArguments('--no-sandbox'); // Required for containers
+options.addArguments('--disable-dev-shm-usage'); // Stability
+```
+
+### GitHub Codespaces Support
+
+The Selenium tests are fully compatible with **GitHub Codespaces**:
+- Automatic Chrome/ChromeDriver installation
+- Container-optimized browser flags
+- Dynamic URL detection for Codespaces environments
+- Public port accessibility for external testing
 
 ## Development
 
