@@ -632,19 +632,19 @@
     ]
   },
   "packageFolders": {
-    "/home/runner/.nuget/packages/": {}
+    "/home/codespace/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/runner/work/AutomatedTestPractice/AutomatedTestPractice/src/TodoApi.Infrastructure/TodoApi.Infrastructure.csproj",
+      "projectUniqueName": "/workspaces/AutomatedTestPractice/src/TodoApi.Infrastructure/TodoApi.Infrastructure.csproj",
       "projectName": "TodoApi.Infrastructure",
-      "projectPath": "/home/runner/work/AutomatedTestPractice/AutomatedTestPractice/src/TodoApi.Infrastructure/TodoApi.Infrastructure.csproj",
-      "packagesPath": "/home/runner/.nuget/packages/",
-      "outputPath": "/home/runner/work/AutomatedTestPractice/AutomatedTestPractice/src/TodoApi.Infrastructure/obj/",
+      "projectPath": "/workspaces/AutomatedTestPractice/src/TodoApi.Infrastructure/TodoApi.Infrastructure.csproj",
+      "packagesPath": "/home/codespace/.nuget/packages/",
+      "outputPath": "/workspaces/AutomatedTestPractice/src/TodoApi.Infrastructure/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/runner/.nuget/NuGet/NuGet.Config"
+        "/home/codespace/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -656,8 +656,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/home/runner/work/AutomatedTestPractice/AutomatedTestPractice/src/TodoApi.Core/TodoApi.Core.csproj": {
-              "projectPath": "/home/runner/work/AutomatedTestPractice/AutomatedTestPractice/src/TodoApi.Core/TodoApi.Core.csproj"
+            "/workspaces/AutomatedTestPractice/src/TodoApi.Core/TodoApi.Core.csproj": {
+              "projectPath": "/workspaces/AutomatedTestPractice/src/TodoApi.Core/TodoApi.Core.csproj"
             }
           }
         }
@@ -666,6 +666,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -697,7 +702,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.119/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.412/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

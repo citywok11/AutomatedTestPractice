@@ -2,12 +2,12 @@
   "name": "selenium-tests",
   "version": "1.0.0",
   "description": "Selenium automation tests for TodoApi",
-  "main": "index.js",
+  "main": "test-todoapi.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node test-todoapi.js"
   },
   "dependencies": {
     "selenium-webdriver": "^4.20.0",
-    "chromedriver": "^126.0.0"
+    "chromedriver": "^131.0.0"
   }
 }

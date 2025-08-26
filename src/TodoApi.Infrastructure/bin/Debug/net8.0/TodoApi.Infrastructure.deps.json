@@ -152,7 +152,10 @@
       },
       "TodoApi.Core/1.0.0": {
         "runtime": {
-          "TodoApi.Core.dll": {}
+          "TodoApi.Core.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

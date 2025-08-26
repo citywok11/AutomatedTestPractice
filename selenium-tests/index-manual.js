@@ -1,9 +1,8 @@
 const { Builder, By, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
-require('chromedriver');
 
 (async function todoApiTest() {
-  console.log('Starting Selenium test...');
+  console.log('Starting Selenium test (without chromedriver dependency)...');
   
   // Configure Chrome options for headless mode
   let options = new chrome.Options();
@@ -29,26 +28,25 @@ require('chromedriver');
     let searchBox = await driver.findElement(By.name('q'));
     if (searchBox) {
       console.log('✓ Successfully found Google search box');
-      await searchBox.sendKeys('Selenium test');
+      await searchBox.sendKeys('Selenium automation test');
       console.log('✓ Successfully typed in search box');
+      
+      // Wait a moment and take a screenshot (if needed)
+      await driver.sleep(1000);
+      console.log('✓ Test completed successfully');
     }
     
-    console.log('Basic Selenium test completed successfully!');
-    
-    // Uncomment this section when you have a local web app running
-    /*
-    console.log('Testing local TodoApi...');
-    const url = 'http://localhost:5000';
-    await driver.get(url);
-    
-    let localTitle = await driver.getTitle();
-    console.log('Local app page title:', localTitle);
-    */
+    console.log('\n=== Selenium Automation Test Results ===');
+    console.log('✓ Chrome browser launched successfully');
+    console.log('✓ Navigation to external website works');
+    console.log('✓ Element finding and interaction works');
+    console.log('✓ All basic Selenium operations functional');
+    console.log('=========================================\n');
     
   } catch (error) {
     console.error('Test failed:', error.message);
   } finally {
     await driver.quit();
-    console.log('Test completed.');
+    console.log('Browser closed. Test completed.');
   }
 })();
