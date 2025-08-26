@@ -98,3 +98,4 @@
 /workspaces/AutomatedTestPractice/src/TodoApi.Api/obj/Debug/net8.0/TodoApi.Api.pdb
 /workspaces/AutomatedTestPractice/src/TodoApi.Api/obj/Debug/net8.0/TodoApi.Api.genruntimeconfig.cache
 /workspaces/AutomatedTestPractice/src/TodoApi.Api/obj/Debug/net8.0/ref/TodoApi.Api.dll
+/workspaces/AutomatedTestPractice/src/TodoApi.Api/bin/Debug/net8.0/TodoApi.Api.staticwebassets.runtime.json

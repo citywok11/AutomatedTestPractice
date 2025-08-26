@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoApi Database Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .user-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .todo-item {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .todo-completed {
+            background: #e8f5e8;
+            border-color: #4caf50;
+        }
+        .todo-title {
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+        }
+        .todo-description {
+            color: #666;
+            margin: 5px 0;
+        }
+        .todo-meta {
+            font-size: 12px;
+            color: #999;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        .error {
+            color: #dc3545;
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 TodoApi Database Viewer</h1>
+        
+        <div class="section">
+            <h2>👤 Current User</h2>
+            <div class="user-info" id="userInfo">
+                <strong>John Doe</strong><br>
+                📧 john@example.com<br>
+                🆔 bf51f54a-e9a0-4492-8a3e-df3c496d89d4
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📝 Todos</h2>
+            <button class="btn" onclick="refreshTodos()">🔄 Refresh Todos</button>
+            <button class="btn" onclick="addSampleTodo()">➕ Add Sample Todo</button>
+            <div id="todosContainer">
+                Loading todos...
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🛠️ API Commands</h2>
+            <p>You can also interact with the database using these curl commands:</p>
+            <pre style="background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto;">
+# Get all todos for the user
+curl http://localhost:5119/api/users/bf51f54a-e9a0-4492-8a3e-df3c496d89d4/todos
+
+# Create a new todo
+curl -X POST http://localhost:5119/api/todos \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "New Task",
+    "description": "Task description",
+    "userId": "bf51f54a-e9a0-4492-8a3e-df3c496d89d4"
+  }'
+
+# Get a specific todo
+curl http://localhost:5119/api/todos/{TODO_ID}
+
+# Update a todo (mark as completed)
+curl -X PATCH http://localhost:5119/api/todos/{TODO_ID} \
+  -H "Content-Type: application/json" \
+  -d '{"isCompleted": true}'
+
+# Delete a todo
+curl -X DELETE http://localhost:5119/api/todos/{TODO_ID}
+            </pre>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5119/api';
+        const USER_ID = 'bf51f54a-e9a0-4492-8a3e-df3c496d89d4';
+
+        async function refreshTodos() {
+            const container = document.getElementById('todosContainer');
+            container.innerHTML = 'Loading todos...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/users/${USER_ID}/todos`);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const todos = await response.json();
+                
+                if (todos.length === 0) {
+                    container.innerHTML = '<p>No todos found. Add some todos to see them here!</p>';
+                    return;
+                }
+                
+                container.innerHTML = todos.map(todo => `
+                    <div class="todo-item ${todo.isCompleted ? 'todo-completed' : ''}">
+                        <div class="todo-title">${todo.title}</div>
+                        <div class="todo-description">${todo.description || 'No description'}</div>
+                        <div class="todo-meta">
+                            🆔 ${todo.id}<br>
+                            📅 Created: ${new Date(todo.createdAt).toLocaleString()}<br>
+                            ${todo.completedAt ? `✅ Completed: ${new Date(todo.completedAt).toLocaleString()}` : '⏳ Not completed'}
+                        </div>
+                        <button class="btn" onclick="toggleTodo('${todo.id}', ${!todo.isCompleted})">
+                            ${todo.isCompleted ? '↩️ Mark Incomplete' : '✅ Mark Complete'}
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteTodo('${todo.id}')">🗑️ Delete</button>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                container.innerHTML = `<div class="error">Error loading todos: ${error.message}</div>`;
+            }
+        }
+
+        async function addSampleTodo() {
+            const titles = [
+                'Learn JavaScript',
+                'Write documentation',
+                'Test the API',
+                'Deploy to production',
+                'Review code',
+                'Update README'
+            ];
+            
+            const descriptions = [
+                'Study modern JavaScript features',
+                'Write comprehensive API documentation',
+                'Create unit and integration tests',
+                'Deploy the application',
+                'Review pull requests',
+                'Update project documentation'
+            ];
+            
+            const randomIndex = Math.floor(Math.random() * titles.length);
+            
+            try {
+                const response = await fetch(`${API_BASE}/todos`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: titles[randomIndex],
+                        description: descriptions[randomIndex],
+                        userId: USER_ID
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                refreshTodos();
+            } catch (error) {
+                alert(`Error adding todo: ${error.message}`);
+            }
+        }
+
+        async function toggleTodo(todoId, isCompleted) {
+            try {
+                const response = await fetch(`${API_BASE}/todos/${todoId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        isCompleted: isCompleted
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                refreshTodos();
+            } catch (error) {
+                alert(`Error updating todo: ${error.message}`);
+            }
+        }
+
+        async function deleteTodo(todoId) {
+            if (!confirm('Are you sure you want to delete this todo?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/todos/${todoId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                refreshTodos();
+            } catch (error) {
+                alert(`Error deleting todo: ${error.message}`);
+            }
+        }
+
+        // Load todos when page loads
+        document.addEventListener('DOMContentLoaded', refreshTodos);
+    </script>
+</body>
+</html>

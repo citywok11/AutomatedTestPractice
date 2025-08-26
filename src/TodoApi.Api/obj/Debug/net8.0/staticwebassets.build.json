@@ -1,11 +1,39 @@
 {
   "Version": 1,
-  "Hash": "TsXejuMwN3bmV2zbrkdQyrcS/HuL8f8y2HVUQP55RcA=",
+  "Hash": "mnfWzZWKl5vFQn9pV4DraKKq/SSiC9g+o5S+QkGURD8=",
   "Source": "TodoApi.Api",
   "BasePath": "_content/TodoApi.Api",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "TodoApi.Api/wwwroot",
+      "Source": "TodoApi.Api",
+      "ContentRoot": "/workspaces/AutomatedTestPractice/src/TodoApi.Api/wwwroot/",
+      "BasePath": "_content/TodoApi.Api",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/workspaces/AutomatedTestPractice/src/TodoApi.Api/wwwroot/index.html",
+      "SourceId": "TodoApi.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "/workspaces/AutomatedTestPractice/src/TodoApi.Api/wwwroot/",
+      "BasePath": "_content/TodoApi.Api",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/index.html"
+    }
+  ]
 }
