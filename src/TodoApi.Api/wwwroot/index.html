@@ -83,11 +83,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>📋 TodoApi Database Viewer</h1>
+        <h1 data-testid="page-title">📋 TodoApi Database Viewer</h1>
         
         <div class="section">
             <h2>👤 Current User</h2>
-            <div class="user-info" id="userInfo">
+            <div class="user-info" id="userInfo" data-testid="user-info-section">
                 <strong>John Doe</strong><br>
                 📧 john@example.com<br>
                 🆔 bf51f54a-e9a0-4492-8a3e-df3c496d89d4
@@ -96,9 +96,9 @@
 
         <div class="section">
             <h2>📝 Todos</h2>
-            <button class="btn" onclick="refreshTodos()">🔄 Refresh Todos</button>
-            <button class="btn" onclick="addSampleTodo()">➕ Add Sample Todo</button>
-            <div id="todosContainer">
+            <button class="btn" onclick="refreshTodos()" data-testid="refresh-todos-btn" id="refreshTodosButton">🔄 Refresh Todos</button>
+            <button class="btn" onclick="addSampleTodo()" data-testid="add-sample-todo-btn" id="addSampleTodoButton">➕ Add Sample Todo</button>
+            <div id="todosContainer" data-testid="todos-container">
                 Loading todos...
             </div>
         </div>
@@ -179,9 +179,9 @@ curl -X DELETE https://glowing-adventure-q4754j5gpqwh9q99-5119.app.github.dev/ap
                 
                 // Update the user info display
                 document.getElementById('userInfo').innerHTML = `
-                    <strong>John Doe</strong><br>
-                    📧 john@example.com<br>
-                    🆔 ${USER_ID}
+                    <strong data-testid="user-name">John Doe</strong><br>
+                    📧 <span data-testid="user-email">john@example.com</span><br>
+                    🆔 <span data-testid="user-id">${USER_ID}</span>
                 `;
                 
                 // Load todos for this user
@@ -189,7 +189,7 @@ curl -X DELETE https://glowing-adventure-q4754j5gpqwh9q99-5119.app.github.dev/ap
                 
             } catch (error) {
                 document.getElementById('userInfo').innerHTML = `
-                    <div class="error">Error initializing user: ${error.message}</div>
+                    <div class="error" data-testid="user-error">Error initializing user: ${error.message}</div>
                 `;
             }
         }
@@ -201,7 +201,7 @@ curl -X DELETE https://glowing-adventure-q4754j5gpqwh9q99-5119.app.github.dev/ap
             }
             
             const container = document.getElementById('todosContainer');
-            container.innerHTML = 'Loading todos...';
+            container.innerHTML = '<div data-testid="loading-todos">Loading todos...</div>';
             
             try {
                 const response = await fetch(`${API_BASE}/users/${USER_ID}/todos`);
@@ -212,28 +212,28 @@ curl -X DELETE https://glowing-adventure-q4754j5gpqwh9q99-5119.app.github.dev/ap
                 const todos = await response.json();
                 
                 if (todos.length === 0) {
-                    container.innerHTML = '<p>No todos found. Add some todos to see them here!</p>';
+                    container.innerHTML = '<p data-testid="no-todos-message">No todos found. Add some todos to see them here!</p>';
                     return;
                 }
                 
                 container.innerHTML = todos.map(todo => `
-                    <div class="todo-item ${todo.isCompleted ? 'todo-completed' : ''}">
-                        <div class="todo-title">${todo.title}</div>
-                        <div class="todo-description">${todo.description || 'No description'}</div>
-                        <div class="todo-meta">
+                    <div class="todo-item ${todo.isCompleted ? 'todo-completed' : ''}" data-testid="todo-item" data-todo-id="${todo.id}">
+                        <div class="todo-title" data-testid="todo-title">${todo.title}</div>
+                        <div class="todo-description" data-testid="todo-description">${todo.description || 'No description'}</div>
+                        <div class="todo-meta" data-testid="todo-meta">
                             🆔 ${todo.id}<br>
                             📅 Created: ${new Date(todo.createdAt).toLocaleString()}<br>
                             ${todo.completedAt ? `✅ Completed: ${new Date(todo.completedAt).toLocaleString()}` : '⏳ Not completed'}
                         </div>
-                        <button class="btn" onclick="toggleTodo('${todo.id}', ${!todo.isCompleted})">
+                        <button class="btn" onclick="toggleTodo('${todo.id}', ${!todo.isCompleted})" data-testid="toggle-todo-btn" data-todo-id="${todo.id}">
                             ${todo.isCompleted ? '↩️ Mark Incomplete' : '✅ Mark Complete'}
                         </button>
-                        <button class="btn btn-danger" onclick="deleteTodo('${todo.id}')">🗑️ Delete</button>
+                        <button class="btn btn-danger" onclick="deleteTodo('${todo.id}')" data-testid="delete-todo-btn" data-todo-id="${todo.id}">🗑️ Delete</button>
                     </div>
                 `).join('');
                 
             } catch (error) {
-                container.innerHTML = `<div class="error">Error loading todos: ${error.message}</div>`;
+                container.innerHTML = `<div class="error" data-testid="todos-error">Error loading todos: ${error.message}</div>`;
             }
         }
 

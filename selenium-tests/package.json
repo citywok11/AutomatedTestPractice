@@ -7,7 +7,7 @@
     "test": "node test-todoapi.js"
   },
   "dependencies": {
-    "selenium-webdriver": "^4.20.0",
-    "chromedriver": "^131.0.0"
+    "chromedriver": "^139.0.2",
+    "selenium-webdriver": "^4.20.0"
   }
 }
