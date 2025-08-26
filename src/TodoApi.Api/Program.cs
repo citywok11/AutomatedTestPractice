@@ -26,13 +26,16 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Enable Swagger in all environments for testing
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Todo API v1");
+    c.RoutePrefix = "swagger"; // Set Swagger UI at /swagger
+});
 
-app.UseHttpsRedirection();
+// Comment out HTTPS redirection for development
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
